@@ -81,7 +81,7 @@ function handleCalculation(button) {
             resetValues();
             return;
     }
-    
+
     console.log(checkLastIndex())
     if (calcResult !== '' && checkLastIndex())
         resetValues();
