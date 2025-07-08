@@ -13,11 +13,6 @@ calculatorButtons.forEach((button) => {
 });
 
 function handleCalculation(button) {
-    //check if first number is finished
-    // if its finished by applying an operator start applying to the secod number
-    // if the user presses equal, calculate result and display it
-
-
 
     // check if incoming input is an integer is it is append it to the displayNumbers array
     // if more numbers are pressed they are still pushed to form a bigger number whilst updating that html
@@ -86,8 +81,9 @@ function handleCalculation(button) {
             resetValues();
             return;
     }
-
-    if (calcResult !== '')
+    
+    console.log(checkLastIndex())
+    if (calcResult !== '' && checkLastIndex())
         resetValues();
 
 
