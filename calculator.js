@@ -85,16 +85,23 @@ function handleCalculation(button) {
             resetValues();
             return;
         case 'sign':
-
-            if (resultNum) {
+            if (firstNumber && !secondNumber)
+            {
+                firstNumber = -firstNumber;
+                calculatorResultElement.innerHTML = firstNumber;
+            }
+            else if (secondNumber)
+            {
+                secondNumber = -secondNumber;
+                calculatorResultElement.innerHTML = secondNumber;
+            }
+            else if (resultNum)
+            {
                 resultNum = -resultNum;
                 calculatorResultElement.innerHTML = resultNum;
             }
             
-            if (!secondNumber)
-                firstNumber = -firstNumber;
-            else
-                secondNumber = -secondNumber;
+            
             return;
         case '%':
             
