@@ -1,0 +1,77 @@
+div{
+    overflow: hidden;
+    font-family: Inter, Arial;
+    color: white;
+}
+
+.calculator-outer-container {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    border-radius: 25px;
+    height: 800px;
+    width: 450px;
+    background-color: rgb(20, 20, 20);
+}
+
+.calculator-display {
+    position: relative;
+    display: block;
+    height: 300px;
+    text-overflow: hidden;
+    color: white;
+}
+
+.calculator-buttons-grid {
+    position: absolute;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 0px;
+    grid-gap: 0px;
+    align-items: center;
+    place-items: center;
+    justify-content: space-between;
+    left: 25px;
+    width: 400px;
+    top: 300px;
+    bottom: 20px;
+}
+
+.calculator-button {
+    background-color: rgb(70, 70, 70);
+    display: grid;
+    align-self: center;
+    border-radius: 45px;
+    border: none;
+    height: 90px;
+    width: 90px;
+    align-items: center;
+    font-size: 45px;
+    font-weight: 300;
+    color: white;
+}
+
+.calculator-result {
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
+    bottom: 0px;
+    right: 0px;
+    font-size: 100px;
+    grid-gap: 0px;
+    padding-right: 25px;
+}
+
+.top-button
+{
+    background-color: gray;
+}
+
+.operator-button
+{
+    background-color: orange;
+}
