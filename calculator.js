@@ -74,7 +74,10 @@ function handleCalculation(button) {
             return;
         case '=':
             if (checkLastIndex()) {
-                calcResult = Number(eval(calcNums)).toFixed(2);
+                calcResult = Number(eval(calcNums)).toFixed(6);
+                let decimalIndex = calcResult.indexOf('.');
+                if (calcResult[decimalIndex + 1] == 0)
+                    calcResult = Math.round(calcResult);
                 calcNums = '';
                 calculatorResultElement.innerHTML = calcResult;
             }
