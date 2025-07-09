@@ -110,8 +110,9 @@ function handleCalculation(button) {
             return;
     }
 
+    if (calcResult !== '' && checkLastIndex())
+        resetValues();
 
-    console.log
     calcNums += buttonValue;
     calcNumsDisplay += buttonValue;
     calcDisplay();
