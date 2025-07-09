@@ -103,7 +103,8 @@ function handleCalculation(button) {
             return;
         case 'sign':
 
-
+            calcNums = numsSign(calcNums);
+            calcNumsDisplay = numsSign(calcNumsDisplay);
             calcDisplay();
 
             return;
@@ -173,4 +174,19 @@ function findNumberAfter(opIndex) {
 
 function reverseString(string) {
     return string.split('').reverse().join('');
+}
+
+function numsSign(nums) {
+    let result;
+    for (let i = nums.length - 1; i >= 0; i--) {
+        let char = nums[i];
+        if (char === '+' || char === '-') {
+            result =
+                char === '+'
+                    ? nums.slice(0, i) + '-' + nums.slice(i + 1, nums.length)
+                    : nums.slice(0, i) + '+' + nums.slice(i + 1, nums.length);
+            return result;
+        }
+    }
+    return '-' + nums;
 }
