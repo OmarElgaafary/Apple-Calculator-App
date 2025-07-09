@@ -74,7 +74,7 @@ function handleCalculation(button) {
             return;
         case '=':
             if (checkLastIndex()) {
-                calcResult = Number(eval(calcNums));
+                calcResult = Number(eval(calcNums)).toFixed(2);
                 calcNums = '';
                 calculatorResultElement.innerHTML = calcResult;
             }
@@ -102,11 +102,21 @@ function handleCalculation(button) {
             calcDisplay();
             return;
         case 'sign':
-
             calcNums = numsSign(calcNums);
             calcNumsDisplay = numsSign(calcNumsDisplay);
             calcDisplay();
-
+            return;
+        case '.':
+            if (calcNums === '' || calcNums === '0') {
+                calcNums += calcNums === '' ? '0.' : '.';
+                calcNumsDisplay += calcNumsDisplay === '' ? '0.' : '.';
+                calcDisplay();
+            }
+            else if (checkDot(calcNums)) {
+                calcNums += '.';
+                calcNumsDisplay += '.';
+                calcDisplay();
+            }
             return;
     }
 
@@ -190,4 +200,20 @@ function numsSign(nums) {
         }
     }
     return '-' + nums;
+}
+
+function checkDot(nums) {
+
+    if (checkLastIndex(nums)) {
+        for (let i = nums.length - 1; i >= 0; i--) {
+            if (nums[i] === '.')
+                return false;
+            else if (checkSigns(nums[i])) {
+                return true;
+            }
+        }
+        return true;
+    }
+    else
+        return false;
 }
