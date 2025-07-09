@@ -4,6 +4,7 @@ const calculatorResultElement = document.querySelector('.calculator-result');
 
 let calcNums = '';
 let calcResult = '';
+let calcNumsDisplay = '';
 
 calculatorButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -28,73 +29,91 @@ function handleCalculation(button) {
     // if you calculate the value of an equation and you press another number, it should cancel the equation and start a new one
 
     let buttonValue = String(button);
-
     switch (buttonValue) {
         case '/':
-            if (calcResult !== '') {
-                calcNums = calcResult;
+            if (calcResult !== '' && !calcNums) {
+                calcNums = calcNumsDisplay = calcResult;
             }
             if (checkLastIndex) {
                 calcNums += '/';
+                calcNumsDisplay += '÷';
                 calcDisplay();
             }
-            console.log(calcNums);
             return;
         case '*':
-            if (calcResult !== '') {
-                calcNums = calcResult;
+            if (calcResult !== '' && !calcNums) {
+                calcNums = calcNumsDisplay = calcResult;
             }
 
             if (checkLastIndex()) {
                 calcNums += '*';
+                calcNumsDisplay += '×';
                 calcDisplay();
             }
             return;
         case '-':
-            if (calcResult !== '') {
-                calcNums = calcResult;
+            if (calcResult !== '' && !calcNums) {
+                calcNums = calcNumsDisplay = calcResult;
             }
 
             if (checkLastIndex()) {
                 calcNums += '-';
+                calcNumsDisplay += '-';
                 calcDisplay();
             }
-            console.log(calcNums);
             return;
         case '+':
-            if (calcResult !== '') {
-                calcNums = Number(calcResult);
+            if (calcResult !== '' && !calcNums) {
+                calcNums = calcNumsDisplay = calcResult;
             }
             if (checkLastIndex()) {
                 calcNums += '+';
+                calcNumsDisplay += '+';
                 calcDisplay();
             }
-            console.log(calcNums);
             return;
         case '=':
             if (checkLastIndex()) {
                 calcResult = Number(eval(calcNums));
+                calcNums = '';
                 calculatorResultElement.innerHTML = calcResult;
             }
             return;
         case 'AC':
             resetValues();
             return;
+        case '%':
+
+            if (checkLastIndex()) { // there isn't an operator at the end
+                let [num1, index] = findNumberBefore();
+                console.log(num1, index)
+                if (index) {
+                    let num2 = findNumberAfter(index);
+                    calcNums = calcNums.slice(0, index + 1)
+                    calcNums += `${num2}*(${num1}/100)`;
+                    calcNumsDisplay += '%';
+                    console.log(calcNums);
+                }
+                else {
+                    calcNums = `(${num1}/100)`;
+                    calcNumsDisplay = `${num1}%`
+                }
+            }
+            calcDisplay();
+            return;
+        case 'sign':
+
+
+            calcDisplay();
+
+            return;
     }
 
-    console.log(checkLastIndex())
-    if (calcResult !== '' && checkLastIndex())
-        resetValues();
 
-
+    console.log
     calcNums += buttonValue;
+    calcNumsDisplay += buttonValue;
     calcDisplay();
-
-    console.log(calcNums);
-    console.log(calcNums.length);
-
-
-
 
 }
 
@@ -106,22 +125,11 @@ function checkLastIndex() {
 }
 
 function resetValues() {
-    calculatorResultElement.innerHTML = calcResult = calcNums = '';
+    calculatorResultElement.innerHTML = calcResult = calcNums = calcNumsDisplay = '';
 }
 
 function calcDisplay() {
-    let calcFormatted = calcNums;
-    if (calcFormatted.includes('*')) {
-        console.log('found');
-        calcFormatted = calcFormatted.replaceAll('*', '×');
-    }
-
-    if (calcFormatted.includes('/')) {
-        console.log('found');
-        calcFormatted = calcFormatted.replaceAll('/', '÷');
-    }
-
-    calculatorResultElement.innerHTML = calcFormatted;
+    calculatorResultElement.innerHTML = calcNumsDisplay;
 }
 
 
@@ -130,4 +138,39 @@ function checkSigns(sign) {
         return false;
     else
         return true;
+}
+
+function findNumberBefore() {
+    let numFound = '';
+    for (let i = calcNums.length - 1; i >= 0; i--) {
+        if (checkSigns(calcNums[i]) && calcNums[i]) {
+            numFound += calcNums[i];
+        }
+        else if (!checkSigns(calcNums[i])) {
+            numFound = reverseString(numFound);
+            return [numFound, i];
+        }
+    }
+
+    numFound = reverseString(numFound);
+    return [numFound];
+}
+
+function findNumberAfter(opIndex) {
+    let numFound = '';
+    for (let i = opIndex - 1; i >= 0; i--) {
+        if (checkSigns(calcNums[i])) {
+            numFound += calcNums[i];
+        }
+        else {
+            numFound = reverseString(numFound);
+            return numFound;
+        }
+    }
+    numFound = reverseString(numFound);
+    return numFound;
+}
+
+function reverseString(string) {
+    return string.split('').reverse().join('');
 }
