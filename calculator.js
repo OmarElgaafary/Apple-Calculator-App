@@ -74,9 +74,9 @@ function handleCalculation(button) {
             return;
         case '=':
             if (checkLastIndex()) {
-                calcResult = Number(eval(calcNums));
+                calcResult = String(eval(calcNums));
                 calcNums = '';
-                calculatorResultElement.innerHTML = calcResult;
+                calculatorResultElement.innerHTML = calcResult.slice(0, 7);
             }
             return;
         case 'AC':
