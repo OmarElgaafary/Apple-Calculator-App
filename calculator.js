@@ -102,7 +102,8 @@ function handleCalculation(button) {
             calcDisplay();
             return;
         case 'sign':
-            if (!calcNums) return;
+            if (!calcNums && !calcResult) return;
+            if (!calcNums && calcResult) calcNums = calcNumsDisplay = calcResult;
             calcNums = numsSign(calcNums);
             calcNumsDisplay = numsSign(calcNumsDisplay);
             calcDisplay();
