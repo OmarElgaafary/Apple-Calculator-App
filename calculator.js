@@ -126,7 +126,7 @@ function handleCalculation(button) {
             return;
     }
 
-    if (calcResult !== '' && checkLastIndex())
+    if (calcResult !== '' && calcNums === '')
         resetValues();
 
     calcNums += buttonValue;
