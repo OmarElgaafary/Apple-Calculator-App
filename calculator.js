@@ -74,10 +74,7 @@ function handleCalculation(button) {
             return;
         case '=':
             if (checkLastIndex()) {
-                calcResult = Number(eval(calcNums)).toFixed(6);
-                let decimalIndex = calcResult.indexOf('.');
-                if (calcResult[decimalIndex + 1] == 0)
-                    calcResult = Math.round(calcResult);
+                calcResult = Number(eval(calcNums));
                 calcNums = '';
                 calculatorResultElement.innerHTML = calcResult;
             }
@@ -87,9 +84,8 @@ function handleCalculation(button) {
             return;
         case '%':
 
-            if (checkLastIndex()) { // there isn't an operator at the end
+            if (checkLastIndex() && calcNumsDisplay[calcNumsDisplay.length - 1] !== '%') { // there isn't an operator at the end
                 let [num1, index] = findNumberBefore();
-                console.log(num1, index)
                 if (index) {
                     let num2 = findNumberAfter(index);
                     calcNums = calcNums.slice(0, index + 1)
@@ -100,16 +96,22 @@ function handleCalculation(button) {
                 else {
                     calcNums = `(${num1}/100)`;
                     calcNumsDisplay = `${num1}%`
+                    console.log(calcNums)
                 }
             }
             calcDisplay();
             return;
         case 'sign':
+            if (!calcNums) return;
             calcNums = numsSign(calcNums);
             calcNumsDisplay = numsSign(calcNumsDisplay);
             calcDisplay();
             return;
         case '.':
+            if (calcNums === '' && calcResult !== '') {
+                calcNums = calcNumsDisplay = calcResult;
+            }
+
             if (calcNums === '' || calcNums === '0') {
                 calcNums += calcNums === '' ? '0.' : '.';
                 calcNumsDisplay += calcNumsDisplay === '' ? '0.' : '.';
@@ -149,7 +151,7 @@ function calcDisplay() {
 
 
 function checkSigns(sign) {
-    if (sign === '/' || sign === '*' || sign === '-' || sign === '+')
+    if (sign === '/' || sign === '*' || sign === '-' || sign === '+' || sign === '.')
         return false;
     else
         return true;
